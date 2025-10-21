@@ -1,31 +1,23 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './Components/Navbar'
-import Footer from './Components/Footer'
 import Home from './Pages/Home'
-import Packages from './Pages/Packages'
-import Details from './Pages/Details'
-import Contact from './Pages/Contact'
-import Admin from './pages/Admin'
-import Plans from './Pages/Plans'
+import Events from './pages/Events'
+import EventDetails from './pages/EventDetails'
+import Vendor from './pages/Vendor'
 
 export default function App(){
   return (
-    <div className="min-h-screen bg-bgSoft">
+    <div className="min-h-screen body-bg">
       <Navbar />
-      <main className="py-8">
-        <div className="container px-6">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/packages" element={<Packages />} />
-            <Route path="/details/:id" element={<Details />} />
-            <Route path="/plans" element={<Plans />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </div>
+      <main className="container mx-auto px-6 py-8">
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/events" element={<Events/>} />
+          <Route path="/events/:id" element={<EventDetails/>} />
+          <Route path="/vendor/:id" element={<Vendor/>} />
+        </Routes>
       </main>
-      <Footer />
     </div>
   )
 }

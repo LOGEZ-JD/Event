@@ -1,35 +1,58 @@
 import React, { useState } from 'react'
+import api from '../api'
 
-export default function PaymentWidget({ amount=0, item='' }){
+export default function PaymentWidget({ amount=0, bookingId, bookingTaskId }){
   const [method, setMethod] = useState('split')
-  const [split, setSplit] = useState(30)
-  const down = Math.round(amount * split / 100)
+  const [pct, setPct] = useState(30)
+  const [loading, setLoading] = useState(false)
+
+  const down = Math.round(amount * pct / 100)
+
+  async function pay(){
+    setLoading(true)
+    try {
+      if(method === 'link'){
+        const res = await api.post('/payments/create-paylink', { booking_id: bookingId, amount })
+        alert('Pay link created: ' + (res.data.link || '(demo)'))
+      } else {
+        const amt = method === 'split' ? down : amount
+        const res = await api.post('/payments/create-intent', { booking_id: bookingId, assignment_id: bookingTaskId, amount: amt, method, split_pct: pct })
+        alert('Payment initiated (demo).')
+      }
+    } catch (err){
+      console.error(err)
+      alert('Payment failed (see console)')
+    } finally { setLoading(false) }
+  }
 
   return (
-    <div className="soft-glass p-4 rounded-md">
-      <h4 className="font-semibold">Payment</h4>
-      <div className="mt-3">
-        <label className="flex items-center gap-3">
-          <input type="radio" name="pm" checked={method==='split'} onChange={()=>setMethod('split')} />
-          <div>
-            <div className="font-medium">Split-Pay</div>
-            <div className="text-sm text-gray-600">Pay {split}% now: ₹{down.toLocaleString()}</div>
-            <input type="range" min="10" max="90" value={split} onChange={e=>setSplit(Number(e.target.value))} />
-          </div>
-        </label>
+    <div className="space-y-3">
+      <label className="flex items-start gap-3">
+        <input type="radio" name="pm" checked={method==='split'} onChange={()=>setMethod('split')} />
+        <div>
+          <div className="font-semibold">Split-pay</div>
+          <div className="small-muted">Pay {pct}% as advance</div>
+          {method==='split' && <input type="range" min="10" max="90" value={pct} onChange={e=>setPct(Number(e.target.value))} />}
+        </div>
+      </label>
 
-        <label className="flex items-start gap-3 mt-3">
-          <input type="radio" name="pm" checked={method==='qr'} onChange={()=>setMethod('qr')} />
-          <div>
-            <div className="font-medium">QR Pay</div>
-            <div className="text-sm text-gray-600">Scan to pay full amount instantly</div>
-            {method === 'qr' && <div className="mt-2 bg-white p-4 rounded text-center">[ QR CODE ]</div>}
-          </div>
-        </label>
-      </div>
+      <label className="flex items-start gap-3">
+        <input type="radio" name="pm" checked={method==='full'} onChange={()=>setMethod('full')} />
+        <div>
+          <div className="font-semibold">Full payment</div>
+        </div>
+      </label>
 
-      <div className="mt-4">
-        <button onClick={()=>alert('Payment demo - integrate gateway')} className="btn-soft w-full">Pay ₹{amount.toLocaleString()}</button>
+      <label className="flex items-start gap-3">
+        <input type="radio" name="pm" checked={method==='link'} onChange={()=>setMethod('link')} />
+        <div>
+          <div className="font-semibold">Pay-link</div>
+          <div className="small-muted">Generate secure payment link</div>
+        </div>
+      </label>
+
+      <div className="mt-2">
+        <button className="btn w-full" onClick={pay} disabled={loading}>{loading? 'Processing…' : `Pay ₹${(method==='split'? down : amount).toLocaleString()}`}</button>
       </div>
     </div>
   )

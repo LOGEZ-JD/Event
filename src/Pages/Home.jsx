@@ -1,30 +1,39 @@
 import React from 'react'
-import { PACKAGES } from '../data'
-import PackageCard from '../Components/PackageCard'
+import { Link } from 'react-router-dom'
+import EventCard from '../components/EventCard'
+import api from '../api'
+import { useEffect, useState } from 'react'
 
 export default function Home(){
+  const [events, setEvents] = useState([])
+
+  useEffect(()=>{
+    api.get('/events').then(r=>setEvents(r.data)).catch(()=>{/* fallback: empty */})
+  },[])
+
   return (
-    <div className="grid gap-10">
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+    <div className="space-y-8">
+      <header className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         <div>
-          <h1 className="text-4xl font-extrabold">EventStudio — beautiful events, stress-free</h1>
-          <p className="mt-4 text-gray-600">We plan weddings, birthdays, corporate events, housewarmings and more — with transparent pricing and real-time coordination.</p>
+          <h1 className="text-4xl font-extrabold">EventLinker — connect users & vendors</h1>
+          <p className="small-muted mt-2">Choose an event type and find best vendors for each task.</p>
+          <div className="mt-4">
+            <Link to="/events" className="btn">Browse events</Link>
+          </div>
         </div>
-        <div className="card p-6">
-          <h4 className="font-semibold">Why choose us</h4>
-          <ul className="mt-3 text-sm text-gray-600 space-y-2">
-            <li>• Dedicated manager</li>
-            <li>• Vendor vetted network</li>
-            <li>• Live event status dashboard</li>
-            <li>• Post-event analytics</li>
-          </ul>
+
+        <div className="card">
+          <h3 className="font-semibold">Quick Search</h3>
+          <p className="small-muted mt-2">Search by city and event to see suggested vendors.</p>
         </div>
-      </section>
+      </header>
 
       <section>
-        <h2 className="text-2xl font-bold mb-4">Featured packages</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PACKAGES.map(p => <PackageCard key={p.id} pkg={p} />)}
+        <h2 className="text-2xl font-semibold mb-4">Event types</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {events.length ? events.map(ev => <EventCard key={ev.id} ev={ev} />) : (
+            <div className="text-gray-500">No events found (backend maybe offline)</div>
+          )}
         </div>
       </section>
     </div>
