@@ -3,28 +3,24 @@ import { Link, useLocation } from 'react-router-dom'
 
 export default function Navbar(){
   const loc = useLocation().pathname
-  const nav = [
-    { to: '/', label: 'Home' },
-    { to: '/plans', label: 'Plans' },
-    { to: '/packages', label: 'Packages' },
-    { to: '/contact', label: 'Contact' }
-  ]
   return (
-    <nav className="glass px-6 md:px-12 py-4 flex items-center justify-between sticky top-0 z-40">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#7439FF] to-[#08AEEA] flex items-center justify-center text-white font-bold shadow-lg">O</div>
-        <div>
-          <div className="text-white font-bold">OrbitEvents</div>
-          <div className="text-xs text-slate-200/70">Design • Plan • Execute</div>
-        </div>
-      </div>
+    <header className="bg-white py-4 shadow-sm sticky top-0 z-40">
+      <div className="container px-6 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-lg grad-accent flex items-center justify-center text-white font-bold">ES</div>
+          <div>
+            <div className="font-semibold text-lg">EventStudio</div>
+            <div className="text-xs text-gray-500">Plan • Execute • Delight</div>
+          </div>
+        </Link>
 
-      <div className="hidden md:flex items-center gap-6">
-        {nav.map(n => (
-          <Link key={n.to} to={n.to} className={`text-slate-200/90 ${loc === n.to ? 'font-semibold text-white' : 'hover:text-white/90'}`}>{n.label}</Link>
-        ))}
-        <Link to="/contact" className="px-4 py-2 bg-gradient-to-br from-[#7439FF] to-[#08AEEA] rounded-full text-white">Get Quote</Link>
+        <nav className="hidden md:flex items-center gap-6">
+          <Link to="/packages" className={loc === '/packages' ? 'font-semibold' : ''}>Packages</Link>
+          <Link to="/plans" className={loc === '/plans' ? 'font-semibold' : ''}>Plans</Link>
+          <Link to="/contact" className={loc === '/contact' ? 'font-semibold' : ''}>Contact</Link>
+          <Link to="/admin" className="btn-outline">Admin</Link>
+        </nav>
       </div>
-    </nav>
+    </header>
   )
 }

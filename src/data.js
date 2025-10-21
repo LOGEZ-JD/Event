@@ -1,7 +1,6 @@
-// small sample data to use across pages
 export const PACKAGES = [
-  { id: 'p1', title: 'Birthday Bliss', price: 12000, tag: 'Popular', desc: 'Theme decor, cake, photobooth, DJ', img: 'https://picsum.photos/800/500?2' },
-  { id: 'p2', title: 'Engagement Elegance', price: 45000, tag: 'Romantic', desc: 'Venue decor, couple shoot, catering', img: 'https://picsum.photos/800/500?4' },
-  { id: 'p3', title: 'Grand Wedding', price: 250000, tag: 'Premium', desc: 'Full wedding planning & guest automation', img: 'https://picsum.photos/800/500?5' },
-  { id: 'p4', title: 'Pupurty Warmth', price: 15000, tag: 'Cozy', desc: 'Pooja setup, snacks, small decor', img: 'https://picsum.photos/800/500?6' }
+  { id:'pkg1', title:'Birthday Deluxe', price:15000, img:'https://picsum.photos/900/600?1', short:'Decor, cake, DJ, photobooth', details:'Full birthday package with themed decor, cake, photobooth, live DJ, host, and cleanup.'},
+  { id:'pkg2', title:'Engagement Premium', price:45000, img:'https://picsum.photos/900/600?2', short:'Venue, decor, food', details:'Elegant engagement experience with venue sourcing, decor, food, and photography.'},
+  { id:'pkg3', title:'Wedding Royal', price:220000, img:'https://picsum.photos/900/600?3', short:'Full wedding orchestration', details:'Full wedding orchestration: mandap, catering, music, guest automation, and live streaming.'},
+  { id:'pkg4', title:'Corporate Pro', price:30000, img:'https://picsum.photos/900/600?4', short:'AV, seating, catering', details:'Corporate event with AV, seating plans, agendas, badges and catering.'}
 ]

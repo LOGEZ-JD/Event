@@ -1,27 +1,36 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 export default function Contact(){
+  const [form, setForm] = useState({ name:'', email:'', phone:'', message:'' })
   const [sent, setSent] = useState(false)
-  return (
-    <section className="container mx-auto px-6 md:px-12 py-16">
-      <h2 className="text-3xl font-extrabold">Contact & Custom Quote</h2>
-      <p className="mt-2 text-slate-200/80 max-w-xl">Tell us about your event and we’ll craft a plan.</p>
 
+  async function submit(e){
+    e.preventDefault()
+    try {
+      await axios.post('/api/contact', form)
+      setSent(true)
+    } catch (err) {
+      alert('Error sending message')
+    }
+  }
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">Contact</h1>
       {!sent ? (
-        <form className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={(e)=>{ e.preventDefault(); setSent(true) }}>
-          <input required placeholder="Name" className="p-3 rounded bg-transparent border border-white/8 text-white" />
-          <input required type="email" placeholder="Email" className="p-3 rounded bg-transparent border border-white/8 text-white" />
-          <input placeholder="Phone" className="p-3 rounded bg-transparent border border-white/8 text-white" />
-          <textarea placeholder="Tell us about your event" rows="4" className="p-3 rounded bg-transparent border border-white/8 text-white"></textarea>
+        <form onSubmit={submit} className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Name" className="p-3 border rounded" />
+          <input required value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="Email" className="p-3 border rounded" />
+          <input value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="Phone" className="p-3 border rounded" />
+          <textarea required value={form.message} onChange={e=>setForm({...form,message:e.target.value})} placeholder="Message" className="p-3 border rounded md:col-span-2"></textarea>
           <div className="md:col-span-2">
-            <button className="px-5 py-3 rounded-full bg-gradient-to-br from-[#7439FF] to-[#08AEEA] text-white">Send Request</button>
+            <button className="btn-primary">Send</button>
           </div>
         </form>
       ) : (
-        <div className="glass p-6 mt-6">
-          <h4 className="text-xl font-semibold">Thanks — we’ll reach out soon.</h4>
-        </div>
+        <div className="card p-4">Thanks! We'll contact you soon.</div>
       )}
-    </section>
+    </div>
   )
 }

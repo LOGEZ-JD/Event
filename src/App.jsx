@@ -1,39 +1,30 @@
 import React from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-
-// Use lowercase folder names (conventional & less error-prone)
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
-
 import Home from './Pages/Home'
-import Plans from './Pages/Plans'
 import Packages from './Pages/Packages'
 import Details from './Pages/Details'
 import Contact from './Pages/Contact'
+import Admin from './pages/Admin'
+import Plans from './Pages/Plans'
 
-export default function App() {
-  const location = useLocation()
-
+export default function App(){
   return (
-    <div className="min-h-screen flex flex-col bg-[#061025] text-white">
-      {/* Navigation */}
+    <div className="min-h-screen bg-bgSoft">
       <Navbar />
-
-      {/* Main content (routes) */}
-      <main className="flex-1">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/plans" element={<Plans />} />
-          <Route path="/packages" element={<Packages />} />
-          <Route path="/details/:id" element={<Details />} />
-          <Route path="/contact" element={<Contact />} />
-
-          {/* fallback */}
-          <Route path="*" element={<Home />} />
-        </Routes>
+      <main className="py-8">
+        <div className="container px-6">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/packages" element={<Packages />} />
+            <Route path="/details/:id" element={<Details />} />
+            <Route path="/plans" element={<Plans />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
+          </Routes>
+        </div>
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   )

@@ -1,58 +1,32 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-
-// ✅ Corrected imports (lowercase paths)
-import GradientBlob from '../Components/GradientBlob'
-import AnimatedCard from '../Components/AnimatedCard'
-import BookingOrbit from '../Components/BookingOrbit'
 import { PACKAGES } from '../data'
+import PackageCard from '../Components/PackageCard'
 
-export default function Home() {
+export default function Home(){
   return (
-    <main className="relative overflow-hidden">
-      {/* background gradient blobs */}
-      <GradientBlob />
-
-      <section className="container mx-auto px-6 md:px-12 py-20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        {/* LEFT SECTION — text content */}
+    <div className="grid gap-10">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         <div>
-          <h1 className="text-5xl font-extrabold leading-tight">
-            Events that <span className="text-[#08AEEA]">shine</span> — planned to perfection
-          </h1>
-
-          <p className="mt-4 text-slate-200/80 max-w-xl">
-            We craft experiences for birthdays, engagements, weddings, housewarmings and corporate events.
-            With creative ideas, flawless execution, and tech-powered coordination — we make your moments unforgettable.
-          </p>
-
-          <div className="mt-6 flex gap-3">
-            <Link
-              to="/packages"
-              className="px-6 py-3 rounded-full bg-gradient-to-br from-[#7439FF] to-[#08AEEA] text-white font-semibold shadow-lg hover:opacity-90 transition"
-            >
-              Explore Packages
-            </Link>
-            <Link
-              to="/plans"
-              className="px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/10 transition"
-            >
-              See Plans
-            </Link>
-          </div>
-
-          {/* Featured packages section */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {PACKAGES.slice(0, 2).map((p) => (
-              <AnimatedCard key={p.id} pkg={p} />
-            ))}
-          </div>
+          <h1 className="text-4xl font-extrabold">EventStudio — beautiful events, stress-free</h1>
+          <p className="mt-4 text-gray-600">We plan weddings, birthdays, corporate events, housewarmings and more — with transparent pricing and real-time coordination.</p>
         </div>
-
-        {/* RIGHT SECTION — Booking Orbit (unique booking design) */}
-        <div className="flex items-center justify-center">
-          <BookingOrbit packages={PACKAGES} />
+        <div className="card p-6">
+          <h4 className="font-semibold">Why choose us</h4>
+          <ul className="mt-3 text-sm text-gray-600 space-y-2">
+            <li>• Dedicated manager</li>
+            <li>• Vendor vetted network</li>
+            <li>• Live event status dashboard</li>
+            <li>• Post-event analytics</li>
+          </ul>
         </div>
       </section>
-    </main>
+
+      <section>
+        <h2 className="text-2xl font-bold mb-4">Featured packages</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {PACKAGES.map(p => <PackageCard key={p.id} pkg={p} />)}
+        </div>
+      </section>
+    </div>
   )
 }
